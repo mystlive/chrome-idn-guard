@@ -11,6 +11,13 @@ const toggle = document.getElementById("toggle");
 const manualScan = document.getElementById("manual-scan");
 const manualUrl = document.getElementById("manual-url");
 const scanContext = document.getElementById("scan-context");
+const linkGuardStatus = document.getElementById("link-guard-status");
+const linkGuardToggle = document.getElementById("link-guard-toggle");
+
+const LINK_GUARD_PERMISSIONS = {
+  permissions: ["scripting"],
+  origins: ["http://*/*", "https://*/*"]
+};
 
 // DOM elements are built with textContent, never innerHTML from a visited URL.
 function addText(parent, tag, content, className) {
@@ -21,7 +28,7 @@ function addText(parent, tag, content, className) {
   return element;
 }
 
-function displayResult(result, context = "今開いているタブを検査") {
+function displayResult(result, context = "現在のタブ（開いた後の確認）") {
   const labels = {
     high: "警戒：文字のなりすましが疑われます",
     medium: "注意：ラテン文字に似た文字があります",
@@ -71,6 +78,7 @@ manualScan.addEventListener("submit", (event) => {
 });
 
 let autoEnabled = false;
+let linkGuardEnabled = false;
 
 async function refreshMode() {
   const enabled = await chrome.permissions.contains({ permissions: ["tabs"] });
@@ -96,6 +104,30 @@ toggle.addEventListener("click", () => {
   });
 });
 
+async function refreshLinkGuard() {
+  linkGuardEnabled = await chrome.permissions.contains(LINK_GUARD_PERMISSIONS);
+  linkGuardStatus.textContent = linkGuardEnabled ? "有効" : "無効";
+  linkGuardToggle.textContent = linkGuardEnabled ? "移動前確認を無効化" : "全サイトで移動前確認を有効化";
+  linkGuardToggle.className = linkGuardEnabled ? "remove" : "";
+  linkGuardToggle.disabled = false;
+  return linkGuardEnabled;
+}
+
+linkGuardToggle.addEventListener("click", () => {
+  linkGuardToggle.disabled = true;
+  // Request broad web access only from this direct user gesture.
+  const operation = linkGuardEnabled
+    ? chrome.permissions.remove(LINK_GUARD_PERMISSIONS)
+    : chrome.permissions.request(LINK_GUARD_PERMISSIONS);
+  void operation.then(async () => {
+    await chrome.runtime.sendMessage({ type: "DG_SYNC_LINK_GUARD" });
+    await refreshLinkGuard();
+  }).catch(() => {
+    linkGuardStatus.textContent = "権限変更に失敗しました";
+    linkGuardToggle.disabled = false;
+  });
+});
+
 async function initialize() {
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -104,5 +136,6 @@ async function initialize() {
     displayResult(analyzeUrl(""));
   }
   await refreshMode();
+  await refreshLinkGuard();
 }
 void initialize();

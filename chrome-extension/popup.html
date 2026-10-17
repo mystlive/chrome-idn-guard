@@ -12,15 +12,13 @@
   <div><h1>URL文字チェック</h1><div class="sub">類似文字をローカルで検査</div></div>
 </header>
 <main>
-  <section class="manual-scan">
-    <h2>移動する前にURLを検査</h2>
-    <form id="manual-scan">
-      <label for="manual-url">調べたいURLを貼り付けてください</label>
-      <input id="manual-url" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://example.com/">
-      <button type="submit">貼り付けたURLを検査</button>
-    </form>
+  <section class="mode link-guard-mode">
+    <div class="mode-label"><h2>移動前のリンク確認</h2><span id="link-guard-status"></span></div>
+    <p>ページ内の国際化ドメインを表示し、クリック時に移動を止めて確認します。URLを直接開いた場合も読み込み開始後に検査します。</p>
+    <p class="caution">有効化すると、すべてのHTTP/HTTPSサイトでリンク先を調べる権限をChromeに求めます。リンク先URLは端末内で検査し、本文や入力内容は読みません。</p>
+    <button id="link-guard-toggle" type="button">権限を確認中…</button>
   </section>
-  <div id="scan-context" class="scan-context" aria-live="polite">今開いているタブを検査</div>
+  <div id="scan-context" class="scan-context" aria-live="polite">現在のタブ（開いた後の確認）</div>
   <div id="risk" class="risk">検査中…</div>
   <section>
     <h2>表示ドメイン</h2>
@@ -35,13 +33,21 @@
     <h2>見分けにくい文字</h2>
     <div id="characters"></div>
   </section>
+  <section class="manual-scan">
+    <h2>移動する前にURLを検査</h2>
+    <form id="manual-scan">
+      <label for="manual-url">調べたいURLを貼り付けてください</label>
+      <input id="manual-url" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://example.com/">
+      <button type="submit">貼り付けたURLを検査</button>
+    </form>
+  </section>
   <section class="mode">
     <div class="mode-label"><h2>自動監視</h2><span id="mode-status"></span></div>
     <p>有効にすると、開いたタブのURLを自動検査してアイコンに警告を表示します。</p>
     <p class="caution">Chromeから「閲覧履歴の読み取り」という権限の確認が出ます。実際の検査は端末内だけで行い、履歴を保存・送信しません。</p>
     <button id="toggle" type="button">権限を確認中…</button>
   </section>
-  <p class="footnote">判定は詐欺の断定でも安全性の保証でもありません。ページ本文・パスワードは読み取りません。</p>
+  <p class="footnote">判定は詐欺の断定でも安全性の保証でもありません。移動前確認ではリンク先URLだけを調べます。直接入力などで開いたページは読み込み開始後の検査です。</p>
 </main>
 <script type="module" src="popup.js"></script>
 </body>

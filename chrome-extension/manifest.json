@@ -2,14 +2,19 @@
   "manifest_version": 3,
   "name": "文字なりすましURLチェッカー",
   "short_name": "URL文字チェック",
-  "version": "0.2.0",
-  "description": "国際化ドメインの紛らわしい文字を端末内だけで検査。自動監視は利用者が許可した場合のみ。",
+  "version": "0.3.0",
+  "description": "リンク先と読み込み中の国際化ドメインを端末内で検査。全サイト確認は任意で有効化できます。",
   "minimum_chrome_version": "120",
   "permissions": [
     "activeTab"
   ],
   "optional_permissions": [
-    "tabs"
+    "tabs",
+    "scripting"
+  ],
+  "optional_host_permissions": [
+    "http://*/*",
+    "https://*/*"
   ],
   "action": {
     "default_popup": "popup.html",

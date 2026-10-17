@@ -67,8 +67,9 @@ footer{{font-size:12px;color:#637887;margin-top:20px;line-height:1.7}}@media(max
 <p class="lead">{html.escape(case["detail"])}</p>
 <div class="pair"><div><span class="label">ドメインのUnicode表記</span><div class="mono">{real}</div></div>
 <div><span class="label">DNS上のASCII表記（Punycode）</span><div class="mono">{ascii_name}</div></div></div>
-<div class="notice"><b>検証手順：</b>Chrome拡張機能の自動監視を許可した場合はツールバーのバッジを確認。
-許可していない場合は拡張機能のアイコンをクリック。ChromeがURLを <b>xn--</b> 表記にする場合もあります。</div></section>
+<div class="notice"><b>検証手順：</b>移動前確認を有効にすると、国際化ドメインのリンクに目印が付き、クリック時に移動前の確認画面が出ます。
+URLを直接開いた場合は、読み込み開始後に画面を覆って検査します。ツールバーのバッジは「自動監視」を別に有効にすると表示されます。
+ChromeがURLを <b>xn--</b> 表記にする場合もあります。</div></section>
 <section class="panel"><h2 style="font-size:18px;margin-top:0">テストケースを切り替える</h2>
 <div class="links">{menu}</div></section>
 <footer>通信先は 127.0.0.1:{PORT}。このサイトはフォーム・スクリプト・外部画像を持たず、入力情報を要求・保存しません。

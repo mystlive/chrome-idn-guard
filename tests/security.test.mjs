@@ -4,12 +4,13 @@ import { readFile, readdir } from 'node:fs/promises';
 import { join } from 'node:path';
 const root = new URL('../chrome-extension/', import.meta.url);
 
-test('manifest requests only activeTab initially and tabs optionally', async () => {
+test('manifest keeps broad page access optional', async () => {
   const manifest = JSON.parse(await readFile(new URL('manifest.json', root), 'utf8'));
   assert.equal(manifest.manifest_version, 3);
   assert.deepEqual(manifest.permissions, ['activeTab']);
-  assert.deepEqual(manifest.optional_permissions, ['tabs']);
+  assert.deepEqual(manifest.optional_permissions, ['tabs', 'scripting']);
   assert.equal(manifest.host_permissions, undefined);
+  assert.deepEqual(manifest.optional_host_permissions, ['http://*/*', 'https://*/*']);
   assert.match(manifest.content_security_policy.extension_pages, /connect-src 'none'/);
 });
 
@@ -18,9 +19,20 @@ test('extension JS is packaged and does not use external network or storage APIs
   for (const filename of files) {
     const code = await readFile(new URL(filename, root), 'utf8');
     assert.doesNotMatch(code, /\bfetch\s*\(|\bXMLHttpRequest\b|\bWebSocket\s*\(|\bsendBeacon\s*\(/);
-    assert.doesNotMatch(code, /chrome\.storage\.|chrome\.history\.|chrome\.scripting\./);
+    assert.doesNotMatch(code, /chrome\.storage\.|chrome\.history\.|chrome\.webRequest\.|chrome\.cookies\./);
     assert.doesNotMatch(code, /\.innerHTML\s*=/);
   }
+});
+
+test('link guard is packaged and checks links before activation', async () => {
+  const manifest = JSON.parse(await readFile(new URL('manifest.json', root), 'utf8'));
+  const guard = await readFile(new URL('link-guard.js', root), 'utf8');
+  assert.equal(manifest.optional_permissions.includes('scripting'), true);
+  assert.match(guard, /preventDefault\(\)/);
+  assert.match(guard, /DG_ANALYZE/);
+  assert.match(guard, /DG_CHECK_PAGE/);
+  assert.match(guard, /DG_APPROVE_HOST/);
+  assert.match(guard, /読み込み自体はすでに始まっています/);
 });
 
 test('auto badge is only updated when optional tabs permission was granted', async () => {
@@ -38,6 +50,7 @@ test('auto badge is only updated when optional tabs permission was granted', asy
       onRemoved: { addListener: () => {} }
     },
     runtime: {
+      onMessage: { addListener: () => {} },
       onStartup: { addListener: () => {} },
       onInstalled: { addListener: () => {} }
     },
