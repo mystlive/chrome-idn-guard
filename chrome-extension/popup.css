@@ -1,0 +1,36 @@
+:root { color-scheme: light; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+* { box-sizing: border-box; }
+body { width: 390px; margin: 0; background: #fbfcfe; color: #1b2632; font-size: 13px; }
+header { display: flex; align-items: center; gap: 10px; background: #fff; border-bottom: 1px solid #e1e5e9; padding: 13px 16px; }
+h1 { font-size: 16px; margin: 0; }
+h2 { font-size: 12px; margin: 0 0 8px; color: #34475b; }
+p { margin: 7px 0; line-height: 1.6; }
+.sub,.ascii,.footnote { font-size: 11px; color: #586778; }
+main { padding: 13px 16px 16px; }
+section { border-bottom: 1px solid #e1e5e9; padding: 12px 0; }
+section:first-of-type { padding-top: 5px; }
+.manual-scan { padding-top: 2px; }
+.manual-scan form { display: grid; gap: 7px; }
+.manual-scan label,.scan-context { font-size: 11px; color: #586778; }
+.manual-scan input { min-width: 0; border: 1px solid #aebbc7; border-radius: 5px; padding: 9px; font: inherit; }
+.manual-scan input:focus { outline: 2px solid #6a9bc1; outline-offset: 1px; }
+.scan-context { margin: 11px 0 6px; }
+.risk { padding: 11px 13px; border-left: 4px solid #64748b; background: #edf1f5; font-weight: 700; border-radius: 4px; }
+.risk.high { border-color: #c02c27; color: #90221e; background: #fff0ef; }
+.risk.medium { border-color: #ba6a00; color: #7a4b08; background: #fff7e7; }
+.risk.info { border-color: #3062ac; color: #264d81; background: #edf4ff; }
+.risk.none { border-color: #39735b; color: #235a43; background: #eff8f3; }
+.host { font-size: 18px; font-weight: 700; word-break: break-all; }
+.ascii { margin-top: 5px; overflow-wrap: anywhere; }
+.flag { color: #a91e18; background: #ffe2dc; border-bottom: 2px solid #c02920; border-radius: 2px; }
+ul { margin: 0; padding-left: 18px; line-height: 1.7; }
+.character { border: 1px solid #dfe5eb; background: white; padding: 7px 9px; border-radius: 5px; margin-top: 6px; display: flex; gap: 10px; align-items: center; }
+.glyph { font-size: 24px; font-weight: 700; width: 36px; text-align: center; border: 1px solid #e2e2e2; background: #fffaf8; }
+.details { font-size: 11px; line-height: 1.5; }
+.mode-label { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+#mode-status { color: #566476; font-size: 11px; }
+.caution { background: #f1f4f7; padding: 8px; border-radius: 4px; font-size: 11px; }
+button { border-radius: 6px; background: #1c4870; color: white; font: inherit; border: 0; padding: 9px 12px; cursor: pointer; margin-top: 6px; }
+button:disabled { opacity: .5; cursor: default; }
+button.remove { background: #5e6670; }
+.footnote { margin-top: 12px; }

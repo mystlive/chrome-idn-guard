@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>URL文字チェック</title>
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+<header>
+  <img src="icons/icon48.png" width="32" height="32" alt="">
+  <div><h1>URL文字チェック</h1><div class="sub">類似文字をローカルで検査</div></div>
+</header>
+<main>
+  <section class="manual-scan">
+    <h2>移動する前にURLを検査</h2>
+    <form id="manual-scan">
+      <label for="manual-url">調べたいURLを貼り付けてください</label>
+      <input id="manual-url" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://example.com/">
+      <button type="submit">貼り付けたURLを検査</button>
+    </form>
+  </section>
+  <div id="scan-context" class="scan-context" aria-live="polite">今開いているタブを検査</div>
+  <div id="risk" class="risk">検査中…</div>
+  <section>
+    <h2>表示ドメイン</h2>
+    <div id="hostname" class="host" aria-live="polite">—</div>
+    <div id="ascii" class="ascii"></div>
+  </section>
+  <section>
+    <h2>判定理由</h2>
+    <ul id="reasons"></ul>
+  </section>
+  <section id="chars-section" hidden>
+    <h2>見分けにくい文字</h2>
+    <div id="characters"></div>
+  </section>
+  <section class="mode">
+    <div class="mode-label"><h2>自動監視</h2><span id="mode-status"></span></div>
+    <p>有効にすると、開いたタブのURLを自動検査してアイコンに警告を表示します。</p>
+    <p class="caution">Chromeから「閲覧履歴の読み取り」という権限の確認が出ます。実際の検査は端末内だけで行い、履歴を保存・送信しません。</p>
+    <button id="toggle" type="button">権限を確認中…</button>
+  </section>
+  <p class="footnote">判定は詐欺の断定でも安全性の保証でもありません。ページ本文・パスワードは読み取りません。</p>
+</main>
+<script type="module" src="popup.js"></script>
+</body>
+</html>

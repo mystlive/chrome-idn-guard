@@ -1,0 +1,7 @@
+[
+  {"id":"normal","unicode_host":"paypal.test","ascii_host":"paypal.test","expectedLevel":"none","title":"通常の英数字ドメイン","detail":"ラテン文字のみの比較基準。警告バッジは表示されない想定です。"},
+  {"id":"cyrillic-mixed","unicode_host":"pаypal.test","ascii_host":"xn--pypal-4ve.test","expectedLevel":"high","title":"キリル文字の a を混ぜた偽装","detail":"見た目は paypal に近く、実際は2文字目が U+0430（キリル文字）です。"},
+  {"id":"cyrillic-whole","unicode_host":"ѕсоре.test","ascii_host":"xn--e1argc3h.test","expectedLevel":"medium","title":"ドメイン構成要素全体がキリル文字","detail":"ラテン文字の scope に見えますが、5文字すべてキリル文字です。"},
+  {"id":"greek-mixed","unicode_host":"gοοgle.test","ascii_host":"xn--ggle-0nda.test","expectedLevel":"high","title":"ギリシャ文字の o を混ぜた偽装","detail":"中央の2文字は U+03BF（ギリシャ文字のオミクロン）です。"},
+  {"id":"legit-idn","unicode_host":"пример.test","ascii_host":"xn--e1afmkfd.test","expectedLevel":"info","title":"通常の国際化ドメイン例","detail":"ロシア語の単語。異なる文字体系という理由だけでは危険と判定しない確認用です。"}
+]
